@@ -59,6 +59,10 @@ $(document).ready(function() {
       $(".last-name").text(newContact.lastName);
       $(".phone-number").text(newContact.phoneNumber);
       $(".home-address").text(newContact.homeAddress);
+      $("ul#addresses").text("");
+      newContact.addresses.forEach(function(address)) {
+        $("ul#addresses").append("<li>" + address.street + ", " + address.city + " " + address.state + "</li>");
+      });
     });
 
     $("input#new-first-name").val("");
