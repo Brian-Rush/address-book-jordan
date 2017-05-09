@@ -20,37 +20,52 @@ Contact.prototype.fullName = function() {
 Address.prototype.fullAddress = function() {
   return this.addressType + ", " + this.street + ", " + this.city + ", " + this.state;
 }
-
 // user interface logic
+
+function resetFields() {
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input#new-phone-number").val("");
+    $("select.address-select-box").val("Work")
+    $("input.new-street").val("");
+    $("input.new-city").val("");
+    $("input.new-state").val("");
+};
+
+function appendNewAddressFields() {
+  $("#new-addresses").append('<div class="new-address">' +
+                               '<div class="form-group">' +
+                                '<label for=".address-select-box">Address Type</label>' +
+                                 '<select class="form-control address-select-box">' +
+                                  '<option>Home</option>' +
+                                  '<option>Work</option>' +                                  '<option>Other</option>' +
+                                 '</select>' +
+                               '</div>' +
+                               '<div class="form-group">' +
+                                 '<label for="new-street">Street Address</label>' +
+                                 '<input type="text" class="form-control new-street">' +
+                               '</div>' +
+                               '<div class="form-group">' +
+                                 '<label for="new-city">City</label>' +
+                                 '<input type="text" class="form-control new-city">' +
+                               '</div>' +
+                               '<div class="form-group">' +
+                                 '<label for="new-state">State</label>' +
+                                 '<input type="text" class="form-control new-state">' +
+                               '</div>' +
+                             '</div>');
+
+};
+
 $(document).ready(function() {
 // Append new address fields
   $("#add-address").click(function() {
-    $("#new-addresses").append('<div class="new-address">' +
-                                 '<div class="form-group">' +
-                                   '<select class="form-control address-select-box">' +
-                                    '<option>Home</option>' +
-                                    '<option>Work</option>' +                                  '<option>Other</option>' +
-                                   '</select>' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-street">Street Address</label>' +
-                                   '<input type="text" class="form-control new-street">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-city">City</label>' +
-                                   '<input type="text" class="form-control new-city">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-state">State</label>' +
-                                   '<input type="text" class="form-control new-state">' +
-                                 '</div>' +
-                               '</div>');
+    appendNewAddressFields();
   });
 
   //Submit listener
   $("form#new-contact").submit(function(event) {
     event.preventDefault();
-
 
     var inputtedFirstName = $("input#new-first-name").val();
     var inputtedLastName = $("input#new-last-name").val();
@@ -66,8 +81,10 @@ $(document).ready(function() {
       newContact.addresses.push(newAddress);
     });
 
+    //Append contact name (which will become clickable)
     $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
 
+    //Show Contact Info for whichever listed contact you click
     $(".contact").last().click(function() {
       $("#show-contact").show();
       $("#show-contact h2").text(newContact.fullName());
@@ -80,15 +97,10 @@ $(document).ready(function() {
       });
     });
 
+    //Remove new address fields
     $(".new-address").remove();
 
     //Clears input fields//
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
-    $("input#new-phone-number").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
-
+    resetFields();
   });
 });
